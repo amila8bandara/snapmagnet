@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapMagnet – Turn Your Memories Into Magnets</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --cream:#FDF8F3;
+    --warm:#F5EDE0;
+    --rust:#C8603A;
+    --rust-light:#F0D5C8;
+    --rust-dark:#8F3E22;
+    --brown:#4A2E1A;
+    --text:#2C1A0E;
+    --muted:#8B6A55;
+    --white:#FFFFFF;
+    --border:#E8D5C4;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+  nav{position:fixed;top:0;width:100%;background:rgba(253,248,243,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:100;padding:0 5%}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--rust);text-decoration:none;letter-spacing:-0.5px}
+  .logo span{color:var(--brown)}
+  .nav-links{display:flex;gap:32px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--muted);transition:color 0.2s}
+  .nav-links a:hover{color:var(--rust)}
+  .nav-cta{background:var(--rust);color:white;padding:9px 22px;border-radius:50px;font-size:14px;font-weight:500;text-decoration:none;transition:background 0.2s}
+  .nav-cta:hover{background:var(--rust-dark)}
+  .hero{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;right:-10%;top:10%;width:55%;height:80%;background:var(--rust-light);border-radius:60% 40% 50% 50%;opacity:0.35;z-index:0}
+  .hero::after{content:'';position:absolute;left:-5%;bottom:-5%;width:30%;height:40%;background:var(--warm);border-radius:50%;z-index:0}
+  .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
+  .hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--rust);margin-bottom:16px}
+  .hero-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,60px);line-height:1.1;color:var(--brown);margin-bottom:20px}
+  .hero-title em{font-style:italic;color:var(--rust)}
+  .hero-subtitle{font-size:17px;line-height:1.7;color:var(--muted);margin-bottom:36px;max-width:460px}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+  .btn-primary{background:var(--rust);color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:500;text-decoration:none;transition:all 0.2s;display:inline-block}
+  .btn-primary:hover{background:var(--rust-dark);transform:translateY(-1px)}
+  .btn-outline{border:1.5px solid var(--rust);color:var(--rust);padding:13px 28px;border-radius:50px;font-size:15px;font-weight:500;text-decoration:none;transition:all 0.2s;display:inline-block}
+  .btn-outline:hover{background:var(--rust-light)}
+  .hero-image{position:relative}
+  .magnet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .magnet-card{border-radius:16px;overflow:hidden;aspect-ratio:1;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid white;box-shadow:0 4px 20px rgba(74,46,26,0.12);transition:transform 0.3s}
+  .magnet-card:hover{transform:rotate(-2deg) scale(1.05)}
+  .magnet-card.big{grid-column:span 2;grid-row:span 2;aspect-ratio:auto;min-height:200px;font-size:48px}
+  .trust-bar{background:var(--brown);padding:18px 5%}
+  .trust-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+  .trust-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.85);font-size:13px;font-weight:500}
+  .trust-dot{width:6px;height:6px;background:var(--rust-light);border-radius:50%;flex-shrink:0}
+  section{padding:90px 5%}
+  .section-inner{max-width:1100px;margin:0 auto}
+  .section-label{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--rust);margin-bottom:12px}
+  .section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);color:var(--brown);line-height:1.2;margin-bottom:16px}
+  .section-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:560px}
+  .products{background:var(--white)}
+  .products-header{text-align:center;margin-bottom:56px}
+  .products-header .section-sub{margin:0 auto}
+  .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .product-card{background:var(--cream);border-radius:24px;overflow:hidden;border:1px solid var(--border);transition:transform 0.25s,box-shadow 0.25s;cursor:pointer}
+  .product-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(74,46,26,0.12)}
+  .product-img{height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .product-img.coral{background:linear-gradient(135deg,#F5EDE0,#F0D5C8)}
+  .product-img.sage{background:linear-gradient(135deg,#EDF5ED,#D5E8D5)}
+  .product-img.sky{background:linear-gradient(135deg,#EDF3F8,#D5E0F0)}
+  .product-img-icon{font-size:56px;filter:drop-shadow(0 4px 12px rgba(74,46,26,0.15))}
+  .product-badge{position:absolute;top:14px;right:14px;background:var(--rust);color:white;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px}
+  .product-info{padding:20px 24px 24px}
+  .product-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--brown);margin-bottom:6px}
+  .product-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .product-footer{display:flex;align-items:center;justify-content:space-between}
+  .product-price{font-size:18px;font-weight:500;color:var(--rust)}
+  .product-price span{font-size:12px;color:var(--muted);font-weight:400}
+  .btn-add{background:var(--brown);color:white;border:none;padding:9px 20px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;transition:background 0.2s;font-family:inherit}
+  .btn-add:hover{background:var(--rust)}
+  .how{background:var(--warm)}
+  .how-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .steps{display:flex;flex-direction:column;gap:32px;margin-top:40px}
+  .step{display:flex;gap:20px;align-items:flex-start}
+  .step-num{width:40px;height:40px;border-radius:50%;background:var(--rust);color:white;font-family:'Playfair Display',serif;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content h3{font-size:16px;font-weight:500;color:var(--brown);margin-bottom:4px}
+  .step-content p{font-size:14px;color:var(--muted);line-height:1.6}
+  .how-visual{background:var(--cream);border-radius:32px;padding:40px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px}
+  .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center}
+  .upload-zone p{font-size:13px;color:var(--muted);margin-top:8px}
+  .upload-icon{font-size:28px}
+  .preview-row{display:flex;gap:8px;margin-top:12px}
+  .preview-thumb{flex:1;aspect-ratio:1;background:var(--rust-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .wholesale{background:var(--brown);color:white}
+  .wholesale-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .wholesale .section-label{color:var(--rust-light)}
+  .wholesale .section-title{color:white}
+  .wholesale .section-sub{color:rgba(255,255,255,0.65)}
+  .wholesale-perks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+  .perk{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:18px}
+  .perk-icon{font-size:22px;margin-bottom:8px}
+  .perk h4{font-size:14px;font-weight:500;margin-bottom:4px}
+  .perk p{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5}
+  .wholesale-img{background:rgba(255,255,255,0.05);border-radius:24px;border:1px solid rgba(255,255,255,0.1);padding:40px;display:flex;align-items:center;justify-content:center;min-height:320px}
+  .bulk-boxes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .bulk-box{background:rgba(255,255,255,0.1);border-radius:12px;padding:16px 20px;text-align:center;border:1px solid rgba(255,255,255,0.15)}
+  .bulk-qty{font-family:'Playfair Display',serif;font-size:28px;color:var(--rust-light)}
+  .bulk-label{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+  .btn-white{background:white;color:var(--brown);padding:14px 32px;border-radius:50px;font-size:15px;font-weight:500;text-decoration:none;transition:all 0.2s;display:inline-block;margin-top:32px}
+  .btn-white:hover{background:var(--rust-light)}
+  .testimonials{background:var(--cream)}
+  .testi-header{text-align:center;margin-bottom:52px}
+  .testi-header .section-sub{margin:0 auto}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .testi-card{background:white;border-radius:20px;padding:28px;border:1px solid var(--border)}
+  .stars{display:flex;gap:3px;margin-bottom:14px}
+  .star{width:14px;height:14px;background:var(--rust);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+  .testi-text{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;font-style:italic}
+  .testi-author{display:flex;align-items:center;gap:10px}
+  .author-avatar{width:36px;height:36px;border-radius:50%;background:var(--rust-light);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--rust-dark);flex-shrink:0}
+  .author-name{font-size:13px;font-weight:500;color:var(--brown)}
+  .author-loc{font-size:11px;color:var(--muted)}
+  .upload-cta{background:linear-gradient(135deg,var(--rust) 0%,var(--rust-dark) 100%);padding:90px 5%;text-align:center}
+  .upload-cta h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,46px);color:white;line-height:1.2;margin-bottom:16px}
+  .upload-cta p{font-size:17px;color:rgba(255,255,255,0.75);margin-bottom:36px}
+  .btn-white-lg{background:white;color:var(--rust-dark);padding:16px 40px;border-radius:50px;font-size:16px;font-weight:500;text-decoration:none;display:inline-block;transition:all 0.2s}
+  .btn-white-lg:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+  footer{background:var(--brown);padding:60px 5% 32px;color:rgba(255,255,255,0.7)}
+  .footer-inner{max-width:1100px;margin:0 auto}
+  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+  .footer-brand p{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.5);margin-top:12px}
+  .footer-col h4{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .footer-col a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+  .footer-col a:hover{color:white}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+  .footer-bottom p{color:rgba(255,255,255,0.35)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .hero-content{animation:fadeUp 0.7s ease forwards}
+  .hero-image{animation:fadeUp 0.7s 0.15s ease forwards;opacity:0}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Snap<span>Magnet</span></a>
+    <ul class="nav-links">
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#wholesale">Wholesale</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a href="#products" class="nav-cta">Order Now</a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Handcrafted with love ✦ Ships Australia-wide</p>
+      <h1 class="hero-title">Turn your <em>memories</em> into magnets</h1>
+      <p class="hero-subtitle">Upload your favourite photo and we'll turn it into a beautiful, premium-quality fridge magnet you'll treasure forever. Perfect gifts for every occasion.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">Shop Magnets</a>
+        <a href="#how" class="btn-outline">How It Works</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="magnet-grid">
+        <div class="magnet-card big" style="background:linear-gradient(135deg,#F5EDE0,#EDD8C8);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+          <div style="font-size:52px">📸</div>
+          <p style="font-size:12px;color:var(--muted);font-weight:500;text-align:center">Your photo here</p>
+        </div>
+        <div class="magnet-card" style="background:linear-gradient(135deg,#EDF5F0,#D5EBE0)"><span style="font-size:26px">🌸</span></div>
+        <div class="magnet-card" style="background:linear-gradient(135deg,#F5EDF5,#EBD5EB)"><span style="font-size:26px">💛</span></div>
+        <div class="magnet-card" style="background:linear-gradient(135deg,#F0F5ED,#D8EBD5)"><span style="font-size:26px">🏖️</span></div>
+        <div class="magnet-card" style="background:linear-gradient(135deg,#F5EDE0,#F0D5C8)"><span style="font-size:26px">🐾</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="trust-dot"></span>Free shipping over $40</div>
+    <div class="trust-item"><span class="trust-dot"></span>Premium glossy finish</div>
+    <div class="trust-item"><span class="trust-dot"></span>Dispatched in 2–3 business days</div>
+    <div class="trust-item"><span class="trust-dot"></span>100% satisfaction guarantee</div>
+    <div class="trust-item"><span class="trust-dot"></span>Australian-made quality</div>
+  </div>
+</div>
+
+<section class="products" id="products">
+  <div class="section-inner">
+    <div class="products-header">
+      <p class="section-label">Our Collection</p>
+      <h2 class="section-title">Magnets for every memory</h2>
+      <p class="section-sub">Whether it's a candid moment, a pet portrait, or a themed design — we've got the perfect magnet for your fridge.</p>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-img coral">
+          <div class="product-img-icon">🖼️</div>
+          <div class="product-badge">Most Popular</div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">Custom Photo Magnet</h3>
+          <p class="product-desc">Upload any photo and we'll print it on a premium 75×75mm magnet with a glossy finish.</p>
+          <div class="product-footer">
+            <div class="product-price">$9.95 <span>each</span></div>
+            <button class="btn-add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img sage">
+          <div class="product-img-icon">🌿</div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">Themed Designs</h3>
+          <p class="product-desc">Browse our library of seasonal and occasion-based templates — birthdays, Christmas, travel, and more.</p>
+          <div class="product-footer">
+            <div class="product-price">$7.95 <span>each</span></div>
+            <button class="btn-add">Browse Designs</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img sky">
+          <div class="product-img-icon">📦</div>
+          <div class="product-badge">Best Value</div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">Photo Magnet Set</h3>
+          <p class="product-desc">Choose any 6 photos for a beautiful gift set. Perfect for Mother's Day, holidays, and celebrations.</p>
+          <div class="product-footer">
+            <div class="product-price">$49.95 <span>set of 6</span></div>
+            <button class="btn-add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="how-grid">
+      <div>
+        <p class="section-label">Simple Process</p>
+        <h2 class="section-title">From photo to fridge in 3 easy steps</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Upload your photo</h3>
+              <p>Choose any photo from your phone or computer. JPG or PNG, any orientation — we'll handle the rest.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>We print & prepare</h3>
+              <p>Your magnet is professionally printed on premium stock with a vibrant, long-lasting finish.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Delivered to your door</h3>
+              <p>Dispatched within 2–3 business days. Arrives beautifully packaged, ready to gift or display.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-visual">
+        <p style="font-size:12px;font-weight:500;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Order portal</p>
+        <div class="upload-zone">
+          <div class="upload-icon">📤</div>
+          <p>Drag & drop your photo here, or <span style="color:var(--rust);font-weight:500">browse</span></p>
+        </div>
+        <div class="preview-row">
+          <div class="preview-thumb">🌅</div>
+          <div class="preview-thumb">🐶</div>
+          <div class="preview-thumb">👨‍👩‍👧</div>
+          <div class="preview-thumb">🏡</div>
+        </div>
+        <div style="background:var(--rust-light);border-radius:12px;padding:14px 16px;margin-top:4px">
+          <p style="font-size:13px;font-weight:500;color:var(--rust-dark)">✦ Preview looks great!</p>
+          <p style="font-size:12px;color:var(--muted);margin-top:3px">75×75mm · Glossy finish · $9.95</p>
+        </div>
+        <button class="btn-add" style="width:100%;padding:14px;font-size:14px;border-radius:50px">Place Order</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wholesale" id="wholesale">
+  <div class="section-inner">
+    <div class="wholesale-inner">
+      <div>
+        <p class="section-label">Bulk & Wholesale</p>
+        <h2 class="section-title">Ordering for events or retail?</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,0.65)">From wedding favours to corporate gifting and market stalls — we offer competitive bulk pricing with no minimums on most sizes.</p>
+        <div class="wholesale-perks">
+          <div class="perk">
+            <div class="perk-icon">💰</div>
+            <h4>Volume discounts</h4>
+            <p>Prices drop at 25, 50, 100 and 250+ units</p>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🎨</div>
+            <h4>Custom branding</h4>
+            <p>Add your logo or message to any design</p>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">⚡</div>
+            <h4>Fast turnaround</h4>
+            <p>Rush orders available for tight deadlines</p>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">📦</div>
+            <h4>Retail-ready packs</h4>
+            <p>Individually wrapped for market & gift shops</p>
+          </div>
+        </div>
+        <a href="#" class="btn-white">Get a Wholesale Quote</a>
+      </div>
+      <div class="wholesale-img">
+        <div class="bulk-boxes">
+          <div class="bulk-box"><div class="bulk-qty">25+</div><div class="bulk-label">Starter pack</div></div>
+          <div class="bulk-box"><div class="bulk-qty">50+</div><div class="bulk-label">Event bundle</div></div>
+          <div class="bulk-box"><div class="bulk-qty">100+</div><div class="bulk-label">Wholesale</div></div>
+          <div class="bulk-box" style="width:100%;margin-top:4px"><div class="bulk-qty">250+</div><div class="bulk-label">Retail reseller pricing</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="reviews">
+  <div class="section-inner">
+    <div class="testi-header">
+      <p class="section-label">Customer Stories</p>
+      <h2 class="section-title">Memories worth sticking around</h2>
+      <p class="section-sub">Real reviews from people who've turned their favourite moments into magnets.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="testi-text">"I ordered a set of 6 for Mum's birthday with old family photos. She cried! The quality is amazing — colours are so vivid and they arrived beautifully packaged."</p>
+        <div class="testi-author">
+          <div class="author-avatar">SL</div>
+          <div><div class="author-name">Sarah L.</div><div class="author-loc">Melbourne, VIC</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="testi-text">"Ordered 80 magnets for our wedding favours. SnapMagnet were so helpful and the turnaround was super fast. Every guest took one home — best decision we made!"</p>
+        <div class="testi-author">
+          <div class="author-avatar">JK</div>
+          <div><div class="author-name">James & Kate</div><div class="author-loc">Sydney, NSW</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="testi-text">"I sell these at my market stall and customers absolutely love them. The wholesale pricing is great and the quality keeps people coming back every week."</p>
+        <div class="testi-author">
+          <div class="author-avatar">TR</div>
+          <div><div class="author-name">Tanya R.</div><div class="author-loc">Brisbane, QLD</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="upload-cta">
+  <h2>Ready to snap your memory?</h2>
+  <p>Upload a photo today and have your magnet on your fridge within the week.</p>
+  <a href="#products" class="btn-white-lg">Start Your Order</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="font-family:'Playfair Display',serif;font-size:20px;text-decoration:none;color:var(--rust-light)">SnapMagnet</a>
+        <p>Premium custom fridge magnets made with love. Turning your favourite photos into keepsakes you'll treasure forever.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Custom Photo Magnets</a></li>
+          <li><a href="#">Themed Designs</a></li>
+          <li><a href="#">Gift Sets</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 SnapMagnet. All rights reserved.</p>
+      <p>Privacy Policy · Terms of Use</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}
+  })
+});
+</script>
+</body>
+</html>
