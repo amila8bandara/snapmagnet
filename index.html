@@ -336,8 +336,8 @@ footer{background:var(--brown);padding:56px 5% 28px}
           </div>
         </div>
 
-        <button class="btn-add-cart" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Add to Cart</button>
-        <button class="btn-buy-now" id="buy-now-btn" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Buy Now</button>
+        <button class="btn-add-cart" onclick="window.open(currentShopifyLink,'_blank')">Add to Cart</button>
+        <button class="btn-buy-now" id="buy-now-btn" onclick="window.open(currentShopifyLink,'_blank')">Buy Now</button>
 
         <hr class="divider">
 
@@ -385,7 +385,7 @@ footer{background:var(--brown);padding:56px 5% 28px}
           <li>Choose any 4 photos</li>
           <li>Beautifully packaged</li>
         </ul>
-        <button class="btn-order outline" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Order Now</button>
+        <button class="btn-order outline" onclick="window.open('https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4','_blank')">Order Now</button>
       </div>
       <div class="pricing-card featured">
         <div class="popular-badge">Most Popular</div>
@@ -400,7 +400,7 @@ footer{background:var(--brown);padding:56px 5% 28px}
           <li>Choose any 6 photos</li>
           <li>Beautifully packaged</li>
         </ul>
-        <button class="btn-order" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Order Now</button>
+        <button class="btn-order" onclick="window.open('https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4','_blank')">Order Now</button>
       </div>
       <div class="pricing-card">
         <div class="pc-qty">9</div>
@@ -414,7 +414,7 @@ footer{background:var(--brown);padding:56px 5% 28px}
           <li>Choose any 9 photos</li>
           <li>Beautifully packaged</li>
         </ul>
-        <button class="btn-order outline" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Order Now</button>
+        <button class="btn-order outline" onclick="window.open('https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4','_blank')">Order Now</button>
       </div>
     </div>
   </div>
@@ -467,7 +467,7 @@ footer{background:var(--brown);padding:56px 5% 28px}
           <p style="font-size:13px;font-weight:500;color:var(--rust-dark)">✦ Bundle of 4 · Glossy Square</p>
           <p style="font-size:12px;color:var(--muted);margin-top:3px">Was $43.95 → <strong>$35.95 AUD</strong></p>
         </div>
-        <button class="btn-buy-now" style="margin-top:14px;border-radius:12px" onclick="window.open('https://snapmagnet-3.myshopify.com','_blank')">Upload Photos & Order</button>
+        <button class="btn-buy-now" style="margin-top:14px;border-radius:12px" onclick="window.open('https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4','_blank')">Upload Photos & Order</button>
       </div>
     </div>
   </div>
@@ -504,7 +504,7 @@ footer{background:var(--brown);padding:56px 5% 28px}
 <section class="cta" id="contact">
   <h2>Ready to snap your memory?</h2>
   <p>Choose your bundle, upload your photos and we'll handle the rest.</p>
-  <a href="https://snapmagnet-3.myshopify.com" target="_blank" class="btn-white">Order Now</a>
+  <a href="https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4" target="_blank" class="btn-white">Order Now</a>
 </section>
 
 <!-- FOOTER -->
@@ -552,14 +552,14 @@ footer{background:var(--brown);padding:56px 5% 28px}
 </footer>
 
 <script>
-var currentSquareLink = 'https://square.link/u/XYNHn1NB';
-function selectQty(btn, qty, was, sale, squareLink){
+var currentShopifyLink = 'https://snapmagnet-3.myshopify.com/products/photo-magnet-bundle-set-of-4';
+function selectQty(btn, qty, was, sale, shopifyLink){
   document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('qtyLabel').textContent = qty;
   document.getElementById('priceWas').textContent = was + ' AUD';
   document.getElementById('priceSale').textContent = sale + ' AUD';
-  currentSquareLink = squareLink;
+  currentShopifyLink = shopifyLink;
   var grid = document.getElementById('previewGrid');
   if(qty===4){grid.className='product-image-preview grid2';}
   else if(qty===6){grid.className='product-image-preview grid3';}
